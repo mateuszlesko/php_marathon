@@ -5,17 +5,26 @@ require '..\scripts\database_scripts\connection.php';
 
 $conn = new ConnectionDB;
 $content = array();
+
+
 if($conn->isExistDB('mysql:host=localhost;dbname=blog_service', 'viewer', '')==true){
 try{
 
     $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
-    $sql_query = 'Select title,content,upload from posts;';
+    $sql_query = 'Select posts.IdPost,posts.title,posts.content,posts.IDUser,posts.upload, users.nickname from posts inner join users on posts.IDUser = users.IdUser';
     $result = $pdo->query($sql_query);
-    while($row=$result->fetch()){
-        $content[]=$row['title'];
-        $content[]=$row['content'];
-        $content[]=$row['upload'];
+    
+    foreach($result as $row){
+        $content[] = array('id'=>$row['IdPost'],
+        'title'=>$row['title'],
+        'content'=>$row['content'],
+        'upload_date'=>$row['upload'],
+        'IdUser'=>$row['IDUser'],
+        'nick'=>$row['nickname']
+        );
+        
     }
+    
     
 }catch(PDOException $e){
     

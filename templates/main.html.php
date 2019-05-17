@@ -14,10 +14,28 @@
     <br>
     <?php
     include '../scripts/CRUD_posts/see_posts.php';
-    foreach($content as $c){
-    echo(htmlspecialchars($c, ENT_QUOTES, 'UTF-8'));
-    echo"<br>";
-    }
-    ?>
+    
+    foreach($content as $c):?>
+        <div>
+        
+        <h3 name='title'><?=$c['title']?></h3>
+        <p><?=$c['content']?></p>
+        <div>
+        <p>Posted in: <?=$c['upload_date']?> by <?=$c['nick']?></p>
+        <form action='\blog\scripts\CRUD_posts\delete_post.php' method='POST'>
+        <input type='hidden' value=<?=$c['id']?> name='idPost'>
+        <input type='hidden' value=<?=$c['IdUser']?> name='idUser'>
+        <input type='submit' value='delete'>
+        </form>
+        <form action='CRUD_posts\update_post.html.php' method='POST'>
+        <input type='hidden' value=<?=$c['title']?> name='title'>
+        <input type='hidden' value=<?=$c['content']?> name='content'>
+        <input type='hidden' value=<?=$c['id']?> name='idPost'>
+        <input type='hidden' value=<?=$c['IdUser']?> name='idUser'>
+        <input type='submit' value='edit'>
+        </div>
+        </div>
+        <br>
+    <?php endforeach;?>
 </body>
 </html>

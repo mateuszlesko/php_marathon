@@ -1,0 +1,10 @@
+Create a blogs service
+- create a database -> (done)
+- CRUD
+- an articles of posts save as txt files 
+- an accounts
+- a searcher
+
+Bad things:
+-delete only for root not "creator" account
+-code, make more beutiful and better than now
