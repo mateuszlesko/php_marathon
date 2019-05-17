@@ -1,0 +1,6 @@
+Create a blogs service
+- create a database
+- CRUD
+- an articles of posts save as txt files 
+- an accounts
+- a searcher
