@@ -1,28 +1,48 @@
 <?php
 $output = '';
 
-include '..\scripts\database_scripts\connection.php';
+require 'C:\xampp\htdocs\blog\scripts\database_scripts\connection.php';
 
-$conn = new ConnectionDB;
-$content = array();
-if($conn->isExistDB('mysql:host=localhost;dbname=blog_service', 'viewer', '')==true){
-try{
+function see_posts($sql_query){
 
-    $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
-    $sql_query = 'Select title,content,upload from posts;';
-    $result = $pdo->query($sql_query);
-    while($row=$result->fetch()){
-        $content[]=$row['title'];
-        $content[]=$row['content'];
-        $content[]=$row['upload'];
+
+    $conn = new ConnectionDB;
+    $content = array();
+
+
+    if($conn->isExistDB('mysql:host=localhost;dbname=blog_service', 'viewer', '')==true){
+    try{
+
+        $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
+        
+        $result = $pdo->query($sql_query);
+        
+        foreach($result as $row){
+            $content[] = array('id'=>$row['IdPost'],
+            'title'=>$row['title'],
+            'content'=>$row['content'],
+            'upload_date'=>$row['upload'],
+            'IdUser'=>$row['IDUser'],
+            'nick'=>$row['nickname']
+            );
+            
+        }
+        
+        
+    }catch(PDOException $e){
+        
+    $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+
     }
-    
-}catch(PDOException $e){
-    
-  $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-
+    }
+    return $content;
 }
+function see_chosen_post($sql){
+    $conn = new ConnectionDB;
+    $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
+    $query = $pdo->prepare($sql);
+    $query->execute();  
+    $content = $query->fetch();
+    return $content;
 }
-
-
 ?>
