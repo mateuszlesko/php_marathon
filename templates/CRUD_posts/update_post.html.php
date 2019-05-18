@@ -9,11 +9,17 @@
     <script src="main.js"></script>
 </head>
 <body>
+    <?php require 'C:\xampp\htdocs\blog\scripts\CRUD_posts\see_posts.php';
+    $idPost = $_POST['idPostX'];
+    $idUser = $_POST['idUserX'];
+    $arr = see_chosen_post("Select title,content from posts where IdPost = $idPost and IDUser = $idUser;");
+
+    ?>
     <form action='\blog\scripts\CRUD_posts\update_post.php' method='POST' id='editForm'>
-    <input type='hidden' name='IdPost' value='<?=$_POST['idPost'];?>'>
-    <input type='hidden' name='IdUser' value='<?=$_POST['idUser'];?>'>
-    <input type='text' name='IdUser' value="<?=$_POST['title']?>">
-    <input type='text' height='150px' width='150px' value="<?=$_POST['content']?>">
+    <input type='hidden' name='IdPost' value='<?=$idPost;?>'>
+    <input type='hidden' name='IdUser' value='<?=$idUser;?>'>
+    <input type='text' name='title' value="<?=$arr['title']?>">
+    <input type='text' name='content' height='150px' width='150px' value="<?=$arr['content']?>">
     <input type='submit' value='Edit'>
     </form>
     
