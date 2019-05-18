@@ -1,36 +1,49 @@
 <?php
 $output = '';
 
-require '..\scripts\database_scripts\connection.php';
+require 'C:\xampp\htdocs\blog\scripts\database_scripts\connection.php';
 
-$conn = new ConnectionDB;
-$content = array();
+function see_posts($sql_query){
 
 
-if($conn->isExistDB('mysql:host=localhost;dbname=blog_service', 'viewer', '')==true){
-try{
+    $conn = new ConnectionDB;
+    $content = array();
 
-    $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
-    $sql_query = 'Select posts.IdPost,posts.title,posts.content,posts.IDUser,posts.upload, users.nickname from posts inner join users on posts.IDUser = users.IdUser';
-    $result = $pdo->query($sql_query);
-    
-    foreach($result as $row){
-        $content[] = array('id'=>$row['IdPost'],
-        'title'=>$row['title'],
-        'content'=>$row['content'],
-        'upload_date'=>$row['upload'],
-        'IdUser'=>$row['IDUser'],
-        'nick'=>$row['nickname']
-        );
+
+    if($conn->isExistDB('mysql:host=localhost;dbname=blog_service', 'viewer', '')==true){
+    try{
+
+        $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
         
-    }
-    
-    
-}catch(PDOException $e){
-    
-  $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+        $result = $pdo->query($sql_query);
+        
+        foreach($result as $row){
+            $content[] = array('id'=>$row['IdPost'],
+            'title'=>$row['title'],
+            'content'=>$row['content'],
+            'upload_date'=>$row['upload'],
+            'IdUser'=>$row['IDUser'],
+            'nick'=>$row['nickname']
+            );
+            
+        }
+        
+        
+    }catch(PDOException $e){
+        
+    $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
 
+    }
+    }
+    return $content;
 }
+function see_chosen_post($sql){
+    $conn = new ConnectionDB;
+    $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
+    $query = $pdo->prepare($sql);
+    $query->execute();  
+    $content = $query->fetch();
+    return $content;
 }
 
 
