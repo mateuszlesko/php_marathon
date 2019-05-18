@@ -14,7 +14,7 @@
     <br>
     <?php
     include '../scripts/CRUD_posts/see_posts.php';
-    
+    $content = see_posts('Select posts.IdPost,posts.title,posts.content,posts.IDUser,posts.upload, users.nickname from posts inner join users on posts.IDUser = users.IdUser');
     foreach($content as $c):?>
         <div>
         
@@ -28,10 +28,8 @@
         <input type='submit' value='delete'>
         </form>
         <form action='CRUD_posts\update_post.html.php' method='POST'>
-        <input type='hidden' value=<?=$c['title']?> name='title'>
-        <input type='hidden' value=<?=$c['content']?> name='content'>
-        <input type='hidden' value=<?=$c['id']?> name='idPost'>
-        <input type='hidden' value=<?=$c['IdUser']?> name='idUser'>
+        <input type='hidden' value=<?=$c['id']?> name='idPostX'>
+        <input type='hidden' value=<?=$c['IdUser']?> name='idUserX'>
         <input type='submit' value='edit'>
         </div>
         </div>
