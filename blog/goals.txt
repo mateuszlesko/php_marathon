@@ -1,6 +1,6 @@
 Create a blogs service
-- create a database
-- CRUD
+- create a database (done at day 1)
+- CRUD (done at day 1 - 2)
 - an articles of posts save as txt files 
 - an accounts
 - a searcher
