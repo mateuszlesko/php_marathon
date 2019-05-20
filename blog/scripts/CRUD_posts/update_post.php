@@ -15,7 +15,7 @@ function updatePost(){
     $sql_update = "Update posts set title = :title, content= :content where IdPost = :idp and IDUser = :idu;";
     $result=$pdo->prepare($sql_update);
     $result->execute($data);
-    echo('udalo sie');
+    echo('Operation has done successful');
 
 }
 updatePost();
