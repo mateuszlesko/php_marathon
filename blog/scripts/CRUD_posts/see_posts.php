@@ -1,18 +1,11 @@
 <?php
 $output = '';
-
 require 'C:\xampp\htdocs\blog\scripts\database_scripts\connection.php';
-
 function see_posts($sql_query){
-
-
     $conn = new ConnectionDB;
     $content = array();
-
-
     if($conn->isExistDB('mysql:host=localhost;dbname=blog_service', 'viewer', '')==true){
     try{
-
         $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
         
         $result = $pdo->query($sql_query);
@@ -32,12 +25,12 @@ function see_posts($sql_query){
     }catch(PDOException $e){
         
     $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-
     }
     }
     return $content;
 }
-function see_chosen_post($sql){
+function see_chosen_post($id){
+    $sql = "select title,content from posts where IdPost = $id;";
     $conn = new ConnectionDB;
     $pdo = $conn->connectDB('mysql:host=localhost;dbname=blog_service', 'viewer', '');
     $query = $pdo->prepare($sql);
